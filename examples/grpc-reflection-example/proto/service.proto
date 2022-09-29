@@ -35,3 +35,25 @@ service MoviesService {
   */
   rpc GetMovies (MovieRequest) returns (MoviesResult) {}
 }
+
+
+message ActorRequest {
+    Actor actor = 1;
+}
+
+/**
+ * actor result message, contains list of actors
+ */
+message ActorsResult {
+    /**
+     * list of actors
+     */
+    repeated Actor result = 1;
+}
+
+service ActorsService {
+  /**
+  * get all actors
+  */
+  rpc GetActors (ActorRequest) returns (ActorsResult) {}
+}
