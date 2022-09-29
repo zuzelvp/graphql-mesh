@@ -44,6 +44,38 @@ const Movies = [
   },
 ];
 
+
+const Actors = [
+  {
+    name: 'Tom Cruise',
+    about: 'Thomas Cruise Mapother IV, known professionally as Tom Cruise, is an American actor and producer.',
+  },
+  {
+    name: 'Simon Pegg',
+    about: 'Simon John Pegg is an English actor, comedian, screenwriter, and producer.',
+  },
+  {
+    name: 'Jeremy Renner',
+    about: 'Jeremy Lee Renner is an American actor.',
+  },
+  {
+    name: 'Henry Cavill',
+    about: 'Henry William Dalgliesh Cavill is a British actor.',
+  },
+  {
+    name: 'Leonardo DiCaprio',
+    about: 'Leonardo Wilhelm DiCaprio is an American actor and film producer.',
+  },
+  {
+    name: 'Jonah Hill',
+    about: 'Jonah Hill Feldstein is an American actor and filmmaker.',
+  },
+  {
+    name: 'Margot Robbie',
+    about: 'Margot Elise Robbie is an Australian actress and producer.',
+  },
+]
+
 module.exports = async function startServer(subscriptionInterval = 1000) {
   const server = wrapServerWithReflection(new Server());
 
@@ -84,6 +116,19 @@ module.exports = async function startServer(subscriptionInterval = 1000) {
           }
         });
       }, subscriptionInterval * (Movies.length + 1));
+    },
+  });
+  server.addService(grpcObject.ActorsService.service, {
+    getActors(call, callback) {
+      const result = Actors.filter(movie => {
+        for (const [key, value] of Object.entries(call.request.actor)) {
+          if (actor[key] === value) {
+            return true;
+          }
+        }
+      });
+      const actorsResult = { result };
+      callback(null, actorsResult);
     },
   });
   server.bindAsync('0.0.0.0:50051', ServerCredentials.createInsecure(), (error, port) => {

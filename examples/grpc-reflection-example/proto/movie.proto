@@ -23,3 +23,8 @@ message Movie {
     google.protobuf.Timestamp time = 5;
     Genre genre = 6;
 }
+
+message Actor {
+    string name = 1;
+    string about = 2;
+}
